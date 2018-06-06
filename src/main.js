@@ -1,13 +1,14 @@
 import Vue from 'vue'
-import App from './App.vue'
+import App from './App'
 import SkillNode from './components/SkillNode.vue'
-
-import api from './api'
 
 Vue.config.productionTip = false
 
-Vue.component('SkillNode', SkillNode);
+Vue.component('SkillNode', SkillNode)
 
+/* eslint-disable no-new */
 new Vue({
-  render: h => h(App)
-}).$mount('#app')
+  el: '#app',
+  template: '<App/>',
+  components: { App }
+})

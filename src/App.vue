@@ -1,14 +1,13 @@
 <template>
-  <div id="skilltree-app">
-    <h1>Skilltree</h1>
-    <!-- Start tree! -->
-    <SkillNode
+	<div id="app">
+		<h1>Skilltree</h1>
+		<SkillNode
       v-for="(skill, index) in skills"
       v-bind:skill="skill"
       v-bind:index="index"
       v-bind:key="skill.id"
     />
-  </div>
+	</div>
 </template>
 
 <script>
@@ -16,39 +15,38 @@
 let api = require('./api.js') // Apparently `import` is forbidden here
 
 export default {
-  name: 'skilltree-app',
+	name: 'skilltree-app',
 
-  components: {
-  },
-
-  data() {
+	data() {
     return {
-      skills: []
-    }
-  },
+      skills: [],
+		}
+	},
+	
+	// Once created, fetch skills
+	created() {
+		api.fetchSkills()
+		.then(skills => {
+			this.skills = skills;
+		});
+	},
 
-  // Once created, fetch skills
-  created() {
-    api.fetchSkills()
-    .then(skills => {
-      this.skills = skills;
-    });
-  },
+	methods: {
 
-  methods: {
-  }
+	},
 }
 </script>
 
-<style>
+<style lang="scss">
+@import './variables.scss';
 
 h1 {
   margin: 1em;
 }
 
-#skilltree-app {
+#app {
   font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
-  color: #2c3e50;
+  color: $vue-blue;
 }
 
 </style>

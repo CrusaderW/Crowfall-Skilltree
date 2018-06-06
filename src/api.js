@@ -1,6 +1,6 @@
 // API Lib for Vue app
 
-// Apparently `import` is forbidden here
+// `import` is forbidden here
 let axios = require('axios');
 
 const host = 'http://localhost';
