@@ -18,3 +18,22 @@ export function fetchSkills() {
     })
     .catch( error => { console.log(error); });
 }
+
+export function updateSkill(skillId, skillName, skillValue, skillTarget) {
+  let req = {
+    method: 'put',
+    url: buildUrl("skills/" + skillId),
+    data: {
+      name: skillName,
+      value: skillValue,
+      target: skillTarget,
+    }
+  }
+
+  return new Promise( (resolve, reject) => {
+    axios(req).then(response => {
+      resolve();
+    })
+    .catch( error => { reject(error); });
+  });
+}

@@ -6,6 +6,7 @@
       v-bind:skill="skill"
       v-bind:index="index"
       v-bind:key="skill.id"
+			v-on:update="updateSkill"
     />
 	</div>
 </template>
@@ -32,7 +33,16 @@ export default {
 	},
 
 	methods: {
-
+		updateSkill(skill) {
+			api.updateSkill(
+				skill.id,
+				skill.name,
+				skill.value,
+				skill.target
+				)
+				.then( () => { console.log("Updated skill: " + skill.name) })
+				.catch( (error) => { console.log("Update error: " + error) });
+		}
 	},
 }
 </script>
