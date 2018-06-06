@@ -1,22 +1,44 @@
-// API Lib for Vue app
+// API Lib
 
-// `import` is forbidden here
-let axios = require('axios');
+let axios = require('axios'); // `import` is forbidden here
 
-const host = 'http://localhost';
+const host = "http://localhost";
 const port = 3000;
 
-function buildUrl(apiCall) {
-  return host + ':' + port  + '/api/' + apiCall;
+function buildUrl(apiPath) {
+  return host + ':' + port  + "/api/" + apiPath;
 }
 
 export function fetchSkills() {
   let req = buildUrl('skills');
-  return axios.get(req)
-    .then(response => {
-      return response.data;
+
+  return new Promise( (resolve, reject) => {
+    axios.get(req).then(response => {
+      // Pass back the data
+      resolve(response.data)
     })
-    .catch( error => { console.log(error); });
+    .catch( error => { reject(error) });
+  });
+}
+
+export function createSkill(skillName, skillValue, skillTarget) {
+  let req = {
+    method: 'post',
+    url: buildUrl("skills"),
+    data: {
+      name: skillName,
+      value: skillValue,
+      target: skillTarget,
+    }
+  }
+
+  return new Promise( (resolve, reject) => {
+    axios(req).then(response => {
+      // Pass new skill data
+      resolve(response.data)
+    })
+    .catch( error => { reject(error) });
+  });
 }
 
 export function updateSkill(skillId, skillName, skillValue, skillTarget) {
@@ -32,8 +54,22 @@ export function updateSkill(skillId, skillName, skillValue, skillTarget) {
 
   return new Promise( (resolve, reject) => {
     axios(req).then(response => {
-      resolve();
+      resolve()
     })
-    .catch( error => { reject(error); });
+    .catch( error => { reject(error) });
+  });
+}
+
+export function deleteSkill(skillId) {
+  let req = {
+    method: 'delete',
+    url: buildUrl("skills/" + skillId),
+  }
+
+  return new Promise( (resolve, reject) => {
+    axios(req).then(response => {
+      resolve()
+    })
+    .catch( error => { reject(error) });
   });
 }
