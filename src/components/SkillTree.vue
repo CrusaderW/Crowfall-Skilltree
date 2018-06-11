@@ -11,6 +11,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import SkillNode from './SkillNode'
+Vue.component('SkillNode', SkillNode) // Needed for recursive SkillNodes
+
 export default {
 	name: 'skill-tree',
   props: {
@@ -29,6 +33,9 @@ export default {
       this.$emit('update', updatedSkill);
     },
 	},
+	components: {
+		SkillNode
+	}
 }
 </script>
 
