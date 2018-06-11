@@ -1,17 +1,16 @@
 <template>
 	<div id="app">
 		<h1>Skilltree</h1>
-		<SkillNode
-      v-for="(skill, index) in skills"
-      v-bind:skill="skill"
-      v-bind:index="index"
-      v-bind:key="skill.id"
+		<SkillTree
+    	:skillData="skills"
 			v-on:update="updateSkill"
     />
 	</div>
 </template>
 
 <script>
+
+import SkillTree from './components/SkillTree'
 
 let api = require('./api.js') // Apparently `import` is forbidden here
 
@@ -44,6 +43,10 @@ export default {
 				.catch( (error) => { console.log("Update error: " + error) });
 		}
 	},
+
+	components: {
+    SkillTree
+  },
 }
 </script>
 

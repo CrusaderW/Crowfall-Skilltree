@@ -1,5 +1,5 @@
 <template>
-  <div class="skill">
+  <li class="skill">
     <div class="viewer" v-if="!editMode">
       <h3 @click="toggleEditor(true)">{{ skill.name }}</h3>
       |
@@ -23,23 +23,26 @@
     </div>
     
     <div class="options">
-      <button class="edit-link" @click="toggleEditor(true)">edit</button>
-      <button class="save-link" @click="saveSkill(skill)">save</button>
+      <button v-if="!editMode" class="edit-link" @click="toggleEditor(true)">edit</button>
+      <button v-if="editMode" class="save-link" @click="saveSkill(skill)">save</button>
     </div>
 
-    <SkillNode 
-      v-for="(childSkill, index) in skill.children"
-      v-bind:skill="childSkill"
-      v-bind:index="index"
-      v-bind:key="childSkill.id"
-      v-on:update="saveSkill"
-    />
-  </div>
+    <ul v-if="skill.children && skill.children.length">
+      <SkillNode 
+        v-for="(childSkill, index) in skill.children"
+        v-bind:skill="childSkill"
+        v-bind:index="index"
+        v-bind:key="childSkill.id"
+        v-on:update="saveSkill"
+      />
+    </ul>
+
+  </li>
 </template>
 
 <script>
-
 export default {
+  name: 'skill',
   props: {
     'skill': Object
   },
@@ -47,7 +50,7 @@ export default {
   data() {
     return {
       editMode: false,
-    };
+    }
   },
   
   methods: {
@@ -58,7 +61,7 @@ export default {
       this.$emit('update', updatedSkill);
       // Todo: Add async wait for server response
       this.toggleEditor(false);
-    }
+    },
   },
 }
 
