@@ -1,32 +1,21 @@
 <template>
   <li class="skill">
+
     <div class="viewer" v-if="!editMode">
-      <h3 @click="toggleEditor(true)">{{ skill.name }}</h3>
-      |
-      <p>Value: {{ skill.value }}</p>
-      |
-      <p>Target: {{ skill.target }}</p>
+      <SkillViewer
+        v-bind:skill="skill"
+        v-on:edit="toggleEditor(true)"
+        v-on:remove="removeSkill(skill)"
+      />
     </div>
 
     <div class="editor" v-if="editMode">
-      <input class="name-editor" 
-        type="text"
-        v-model="skill.name">
-      |
-      <input class="value-editor" 
-        type="number" min="0" max="100" 
-        v-model="skill.value">
-      |
-      <input class="target-editor" 
-        type="number" min="0" max="100" 
-        v-model="skill.target">
+      <SkillEditor
+        v-bind:skill="skill"
+        v-on:save="saveSkill(skill)"
+       />
     </div>
     
-    <div class="options">
-      <button v-if="!editMode" class="edit-link" @click="toggleEditor(true)">edit</button>
-      <button v-if="editMode" class="save-link" @click="saveSkill(skill)">save</button>
-    </div>
-
     <ul v-if="skill.children && skill.children.length">
       <SkillNode 
         v-for="(childSkill, index) in skill.children"
@@ -41,8 +30,14 @@
 </template>
 
 <script>
+
+import Vue from 'vue'
+import SkillNode from './SkillNode' // for dynamic node creation
+import SkillViewer from './SkillViewer'
+import SkillEditor from './SkillEditor'
+
 export default {
-  name: 'skill',
+  name: 'skill-node',
   props: {
     'skill': Object
   },
@@ -62,17 +57,20 @@ export default {
       // Todo: Add async wait for server response
       this.toggleEditor(false);
     },
+    removeSkill(remSkill) {
+      this.$emit('remove', remSkill)
+    },
+  },
+
+  components: {
+    SkillViewer,
+    SkillEditor,
   },
 }
 
 </script>
 
 <style scoped>
-
-  h3, p {
-    display: inline-block;
-    clear: both;
-  }
 
   .skill {
     display: block;
