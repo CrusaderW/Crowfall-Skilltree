@@ -28,13 +28,13 @@ export default {
   },
   methods: {
     edit() {
-      this.$emit('edit');
+      this.$emit('edit')
     },
     add() {
-      this.$emit('add');
+      this.$emit('add')
     },
     remove() {
-      this.$emit('remove');
+      this.$emit('remove')
     }
   },
 }
@@ -43,9 +43,9 @@ export default {
 
 <style scoped>
 
-  h3, p {
-    display: inline-block;
-    clear: both;
-  }
+h3, p {
+  display: inline-block;
+  clear: both;
+}
 
 </style>

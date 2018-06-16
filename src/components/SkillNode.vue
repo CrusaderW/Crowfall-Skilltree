@@ -41,27 +41,28 @@ export default {
   props: {
     'skill': Object
   },
-
   data() {
     return {
       editMode: false,
     }
   },
-  
   methods: {
+
     toggleEditor(isOn) {
-      this.editMode = isOn;
+      this.editMode = isOn
     },
+
     saveSkill(updatedSkill) {
       this.$emit('update', updatedSkill);
       // Todo: Add async wait for server response
-      this.toggleEditor(false);
+      this.toggleEditor(false)
     },
+
     removeSkill(remSkill) {
       this.$emit('remove', remSkill)
     },
-  },
 
+  },
   components: {
     SkillViewer,
     SkillEditor,
@@ -72,20 +73,20 @@ export default {
 
 <style scoped>
 
-  .skill {
-    display: block;
-    min-width: 200px;
-    border: 1px dashed;
-    border-left: 5px solid;
-    padding: 20px;
-    margin: 20px;
-    margin-left: 40px;
-    overflow: auto;
-  }
+.skill {
+  display: block;
+  min-width: 200px;
+  border: 1px dashed;
+  border-left: 5px solid;
+  padding: 20px;
+  margin: 20px;
+  margin-left: 40px;
+  overflow: auto;
+}
 
-  .options {
-    font-size: 1em;
-    width: 100%;
-  }
+.options {
+  font-size: 1em;
+  width: 100%;
+}
 
 </style>

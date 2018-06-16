@@ -15,7 +15,7 @@ export function fetchSkills() {
   return new Promise( (resolve, reject) => {
     axios.get(req).then(response => {
       // Pass back the data
-      resolve(response.data)
+      resolve(response.data);
     })
     .catch( error => { reject(error) });
   });
@@ -30,12 +30,12 @@ export function createSkill(skillName, skillValue, skillTarget) {
       value: skillValue,
       target: skillTarget,
     }
-  }
+  };
 
   return new Promise( (resolve, reject) => {
     axios(req).then(response => {
       // Pass new skill data
-      resolve(response.data)
+      resolve(response.data);
     })
     .catch( error => { reject(error) });
   });
@@ -50,11 +50,11 @@ export function updateSkill(skillId, skillName, skillValue, skillTarget) {
       value: skillValue,
       target: skillTarget,
     }
-  }
+  };
 
   return new Promise( (resolve, reject) => {
     axios(req).then(response => {
-      resolve()
+      resolve();
     })
     .catch( error => { reject(error) });
   });
@@ -64,11 +64,11 @@ export function deleteSkill(skillId) {
   let req = {
     method: 'delete',
     url: buildUrl("skills/" + skillId),
-  }
+  };
 
   return new Promise( (resolve, reject) => {
     axios(req).then(response => {
-      resolve()
+      resolve();
     })
     .catch( error => { reject(error) });
   });

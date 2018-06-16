@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     save() {
-      this.$emit('save');
+      this.$emit('save')
     }
   },
 }

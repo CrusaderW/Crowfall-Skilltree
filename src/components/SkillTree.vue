@@ -1,17 +1,17 @@
 <template>
-	<div>
-		<ul ref="nodeList">
-			<SkillNode
-				v-for="(skill, index) in skillData"
-				v-bind:skill="skill"
-				v-bind:index="index"
-				v-bind:key="skill.id"
-				v-on:update="updateSkill"
-				v-on:remove="removeSkill"
-			/>
-		</ul>
-		<button class="add-link" v-on:click="createSkill()">+</button>
-	</div>
+  <div>
+    <ul ref="nodeList">
+      <SkillNode
+        v-for="(skill, index) in skillData"
+        v-bind:skill="skill"
+        v-bind:index="index"
+        v-bind:key="skill.id"
+        v-on:update="updateSkill"
+        v-on:remove="removeSkill"
+      />
+    </ul>
+    <button class="add-link" v-on:click="createSkill()">+</button>
+  </div>
 </template>
 
 <script>
@@ -20,26 +20,26 @@ import SkillNode from './SkillNode'
 Vue.component('SkillNode', SkillNode) // Needed for recursive SkillNodes
 
 export default {
-	name: 'skill-tree',
+  name: 'skill-tree',
   props: {
     'skillData': Array
   },
+  data() {
+    return {
+    }
+  },
+  methods: {
 
-	data() {
-		return {
-
-		}
-	},
-
-	methods: {
-		updateSkill(updatedSkill) {
+    updateSkill(updatedSkill) {
       // Send update messages to parent
-      this.$emit('update', updatedSkill);
-		},
-		removeSkill(remSkill) {
-			this.$emit('remove', remSkill)
-		},
-		createSkill() {
+      this.$emit('update', updatedSkill)
+    },
+
+    removeSkill(remSkill) {
+      this.$emit('remove', remSkill)
+    },
+
+    createSkill() {
       // Ok we're going to create a temporary "form" node
       var NodeClass = Vue.extend(SkillNode) // extend SkillNode
       var newNode = new NodeClass({
@@ -64,15 +64,15 @@ export default {
       newNode.toggleEditor(true)
       // Put form onto DOM
       this.$refs.nodeList.appendChild(newNode.$el)
-		},	
-	},
-	components: {
-		SkillNode
-	}
+    },
+      
+  },
+  components: {
+    SkillNode
+  }
 }
 </script>
 
-<style lang="scss">
-@import './variables.scss';
+<style scoped>
 
 </style>

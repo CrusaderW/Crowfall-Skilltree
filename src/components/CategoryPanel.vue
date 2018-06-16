@@ -16,13 +16,11 @@ export default {
   props: {
     'category': Object
   },
-
   data() {
     return {
 
     };
   },
-  
   methods: {
 
   },
@@ -32,9 +30,9 @@ export default {
 
 <style scoped>
 
-  .skill-category {
-    display: block;
-    border: 1px solid #CCCCCC;
-  }
+.skill-category {
+  display: block;
+  border: 1px solid #CCCCCC;
+}
 
 </style>
