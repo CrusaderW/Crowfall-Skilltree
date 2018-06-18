@@ -21,14 +21,18 @@ export function fetchSkills() {
   });
 }
 
-export function createSkill(skillName, skillValue, skillTarget) {
+export function createSkill(info) {
+  let reqUrl = (info.parent) ? buildUrl("skills/" + info.parent.id + "/children") : buildUrl("skills")
+
+  console.log("Req UrL: " + reqUrl);
+
   let req = {
     method: 'post',
-    url: buildUrl("skills"),
+    url: reqUrl,
     data: {
-      name: skillName,
-      value: skillValue,
-      target: skillTarget,
+      name: info.name,
+      value: info.value,
+      target: info.target,
     }
   };
 
