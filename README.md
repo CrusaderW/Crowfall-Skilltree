@@ -10,7 +10,6 @@ Web client for [Skilltree](https://github.com/k8e/skilltree-server "Skilltree se
 * ~~Write library for easy API queries~~
 * ~~List skill tree~~
 * ~~Add skill creators/updaters/deleters~~
-* Add tree manipulations
 * Pretty progress bars
 * Make the UI incredible
 * Unit testing

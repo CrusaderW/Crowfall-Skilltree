@@ -1,11 +1,11 @@
 <template>
-  <li class="skill">
+  <li class="skill-node">
 
     <div class="viewer" v-if="!editMode">
       <SkillViewer
         v-bind:skill="skill"
         v-on:edit="toggleEditor(true)"
-        v-on:remove="removeSkill(skill)"
+        v-on:remove="notifySkillRemove(skill)"
       />
     </div>
 
@@ -15,24 +15,19 @@
         v-on:save="saveSkill(skill)"
        />
     </div>
-    
-    <ul v-if="skill.children && skill.children.length">
-      <SkillNode 
-        v-for="(childSkill, index) in skill.children"
-        v-bind:skill="childSkill"
-        v-bind:index="index"
-        v-bind:key="childSkill.id"
-        v-on:update="saveSkill"
-      />
-    </ul>
+
+    <SkillTree
+      v-if="skill.children && skill.children.length"
+      v-bind:skillData="skill.children"
+      v-on:update="notifySkillUpdate"
+      v-on:remove="notifySkillRemove"
+      v-on:create="createSkill"
+    />
 
   </li>
 </template>
 
 <script>
-
-import Vue from 'vue'
-import SkillNode from './SkillNode' // for dynamic node creation
 import SkillViewer from './SkillViewer'
 import SkillEditor from './SkillEditor'
 
@@ -58,7 +53,20 @@ export default {
       this.toggleEditor(false)
     },
 
-    removeSkill(remSkill) {
+    createSkill(info) {
+      if (!info.parent) {
+        // Claim this new skill as a child
+        info.parent = this.skill
+      }
+
+      this.$emit('create', info)
+    },
+
+    notifySkillUpdate(skill) {
+      this.$emit('update', skill)
+    },
+
+    notifySkillRemove(remSkill) {
       this.$emit('remove', remSkill)
     },
 
@@ -66,6 +74,7 @@ export default {
   components: {
     SkillViewer,
     SkillEditor,
+    // SkillTree inherited
   },
 }
 
@@ -73,14 +82,13 @@ export default {
 
 <style scoped>
 
-.skill {
+.skill-node {
   display: block;
   min-width: 200px;
   border: 1px dashed;
   border-left: 5px solid;
   padding: 20px;
-  margin: 20px;
-  margin-left: 40px;
+  margin: 20px 0;
   overflow: auto;
 }
 

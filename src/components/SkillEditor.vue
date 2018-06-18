@@ -9,7 +9,7 @@
       v-model="skill.value">
     |
     <input class="target-editor" 
-      type="number" min="0" max="100" 
+      type="number" min="0" max="100"
       v-model="skill.target">
 
     <div class="options">
@@ -20,12 +20,19 @@
 
 <script>
 
-import Vue from 'vue'
-
 export default {
   name: 'skill-editor',
   props: {
-    'skill': Object,
+    skill: {
+      type: Object,
+      default: function() {
+        return {
+          'name': 'Skill Name',
+          'value': 0, 
+          'target': 80,
+        }
+      },
+    }
   },
   data() {
     return {
@@ -33,7 +40,11 @@ export default {
   },
   methods: {
     save() {
-      this.$emit('save')
+      this.$emit('save', {
+        name: this.skill.name,
+        value: this.skill.value,
+        target: this.skill.target
+      })
     }
   },
 }

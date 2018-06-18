@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App'
-import SkillNode from './components/SkillNode.vue'
 
 Vue.config.productionTip = false
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="skilltree-app">
     <h1>Skilltree</h1>
     <SkillTree
       v-bind:skillData="root.children"
@@ -11,8 +11,9 @@
 </template>
 
 <script>
-
-import SkillTree from './components/SkillTree'
+import Vue from 'vue'
+import SkillTree from './components/SkillTree.vue'
+Vue.component('SkillTree', SkillTree) // Needed for recursive SkillTrees
 
 let api = require('./api.js') // Apparently `import` is forbidden here
 
@@ -45,16 +46,16 @@ export default {
       .catch( (error) => { console.log("Update error: " + error) })
     },
     
-    createSkill(skill) {
+    createSkill(info) {
       // Call API to create skill
-      api.createSkill(
-        skill.name,
-        skill.value,
-        skill.target
-      )
-      .then( (newSkill) => { 
+      api.createSkill(info).then( (newSkill) => { 
+        // Find parent
+        let parent = this.root
+        if (info.parent) // Reference `info` until API supports `parent` attributes
+          parent = this.findSkill(info.parent.id)
+
         // Add new skill to data
-        this.root.children.push(newSkill)
+        parent.children.push(newSkill)
       })
       .catch( (error) => { console.log("Create error: " + error) })
     },
@@ -75,16 +76,16 @@ export default {
           return skill
 
         if (skill.children && skill.children.length > 0) {
-          for (let i = 0; i < skills.chilren.length; i++) 
-            return recursiveFind(skills.children[i], queryId)
+          for (let i = 0; i < skill.children.length; i++) {
+            let result = recursiveFind(skill.children[i], queryId)
+            if (result)
+              return result
+          }
         }
       }
 
-      // Use recursive finder on all root skills
-      for (let i = 0; i < this.root.children.length; i++) {
-        let skill = this.root.children[i]
-        return recursiveFind(skill, id)
-      }
+      // Use recursive finder on tree root
+      return recursiveFind(this.root, id)
     },
 
     findParentOf(skillId) {
@@ -95,9 +96,9 @@ export default {
           if (child.id == queryId) 
             return parent; // given node is parent
           else {
-            if (child.chilren) {
+            if (child.children) {
               for (let j = 0; j < child.children.length; j++) {
-                let grandchild = child.chilren[j]
+                let grandchild = child.children[j]
                 if (grandchild.id == queryId) {
                   return child
                 }
@@ -125,7 +126,7 @@ h1 {
   margin: 1em;
 }
 
-#app {
+#skilltree-app {
   font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
   color: $default-blue;
 }

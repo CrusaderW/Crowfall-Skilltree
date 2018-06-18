@@ -1,23 +1,31 @@
 <template>
-  <div>
-    <ul ref="nodeList">
+  <div class="skill-tree">
+
+    <ul class="skill-tree-list" ref="nodeList">
       <SkillNode
         v-for="(skill, index) in skillData"
         v-bind:skill="skill"
         v-bind:index="index"
         v-bind:key="skill.id"
-        v-on:update="updateSkill"
-        v-on:remove="removeSkill"
+        v-on:update="notifySkillUpdate"
+        v-on:remove="notifySkillRemove"
+        v-on:create="notifySkillCreated"
       />
     </ul>
-    <button class="add-link" v-on:click="createSkill()">+</button>
+
+    <button v-if="!createMode" class="add-link" v-on:click="toggleCreate(true)">+ Add Skill</button>
+
+    <SkillEditor 
+      v-if="createMode"
+      v-on:save="createNewSkill"
+    />
+    
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
+import SkillEditor from './SkillEditor'
 import SkillNode from './SkillNode'
-Vue.component('SkillNode', SkillNode) // Needed for recursive SkillNodes
 
 export default {
   name: 'skill-tree',
@@ -26,53 +34,53 @@ export default {
   },
   data() {
     return {
+      createMode: false,
     }
   },
   methods: {
 
-    updateSkill(updatedSkill) {
+    toggleCreate(on) {
+      this.createMode = on
+    },
+
+    notifySkillUpdate(updatedSkill) {
       // Send update messages to parent
       this.$emit('update', updatedSkill)
     },
 
-    removeSkill(remSkill) {
+    notifySkillRemove(remSkill) {
       this.$emit('remove', remSkill)
     },
 
-    createSkill() {
-      // Ok we're going to create a temporary "form" node
-      var NodeClass = Vue.extend(SkillNode) // extend SkillNode
-      var newNode = new NodeClass({
-        propsData: { 
-          skill: {
-            name: 'Skill Name',
-            value: 0,
-            target: 80,
-          }
-        }
-      })
-      // Handle form submission
-      newNode.$on('update', (skillData) => {
-        // Emit create event
-        this.$emit('create', skillData) 
-        // Get rid of this temporary form node
-        newNode.$el.remove()
-        newNode.$destroy()
-      })
-      newNode.$mount()
-      // Set it to "edit mode"
-      newNode.toggleEditor(true)
-      // Put form onto DOM
-      this.$refs.nodeList.appendChild(newNode.$el)
+    notifySkillCreated(skillInfo) {
+      this.$emit('create', skillInfo)
     },
-      
+
+    createNewSkill(skillInfo) {
+      // We know this is a brand new skill
+      //  and no parent has been defined yet
+      skillInfo.parent = null
+
+      this.notifySkillCreated(skillInfo)
+      this.toggleCreate(false)
+    }
+
   },
   components: {
-    SkillNode
+    SkillNode,
+    SkillEditor,
   }
 }
 </script>
 
 <style scoped>
+
+.skill-tree {
+  padding-left: 20px;
+}
+
+ul.skill-tree-list {
+  padding: 0;
+}
 
 </style>
