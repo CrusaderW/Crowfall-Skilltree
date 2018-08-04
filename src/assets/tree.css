@@ -1,0 +1,56 @@
+/* Connectors */
+.node-info::before, .node-info::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 2px solid #000;
+  width: 50%;
+  height: 20px;
+}
+.node-info::after {
+  right: auto;
+  left: 50%;
+  border-left: 2px solid #000;
+}
+
+/* Remove left-right connectors from elements without siblings */
+li.skill-node:only-child>.node-info::after, li.skill-node:only-child>.node-info::before {
+	display: none;
+}
+
+/* Remove space from the top of single children */
+li.skill-node:only-child { 
+  padding-top: 0;
+}
+
+/* Remove extra connectors from end childs */
+li.skill-node:first-child>.node-info::before, li.skill-node:last-child>.node-info::after,
+.skill-tree-root > ul.node-list > li.skill-node > .node-info::before, 
+.skill-tree-root > ul.node-list > li.skill-node > .node-info::after 
+{
+	border: 0 none;
+}
+
+/* Add back vertical connector to last nodes */
+li.skill-node:last-child>.node-info::before {
+	border-right: 2px solid #000;
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+li.skill-node:first-child>.node-info::after {
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+}
+
+/* Downward connectors from parents */
+.skill-tree-root ul ul.node-list::before {
+	content: '';
+	position: absolute; 
+  top: 0; 
+  left: 50%;
+	border-left: 2px solid #000;
+	width: 0; height: 20px;
+}

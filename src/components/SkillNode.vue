@@ -1,21 +1,22 @@
 <template>
   <li class="skill-node">
 
-    <div class="viewer" v-if="!editMode">
-      <SkillViewer
+    <!-- Node info -->
+    <div class="node-info">
+      <SkillViewer 
+        v-if="!editMode"
         v-bind:skill="skill"
         v-on:edit="toggleEditor(true)"
         v-on:remove="notifySkillRemove(skill)"
       />
-    </div>
-
-    <div class="editor" v-if="editMode">
-      <SkillEditor
+      <SkillEditor 
+        v-if="editMode"
         v-bind:skill="skill"
         v-on:save="saveSkill(skill)"
-       />
+      />
     </div>
 
+    <!-- Children -->
     <SkillTree
       v-if="skill.children && skill.children.length"
       v-bind:skillData="skill.children"
@@ -83,18 +84,25 @@ export default {
 <style scoped>
 
 .skill-node {
+  flex: 0 0 auto;
   display: block;
   min-width: 200px;
-  border: 1px dashed;
-  border-left: 5px solid;
   padding: 20px;
-  margin: 20px 0;
+  margin: 20px 0;  
   overflow: auto;
+  position: relative;
+}
+
+.node-info {
+  background-color: #FFFFFF;
+  display: block;
+  padding: 20px;
+  border: 1px solid #000000;
+  box-shadow: 5px 5px #000000;
 }
 
 .options {
   font-size: 1em;
   width: 100%;
 }
-
 </style>

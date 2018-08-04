@@ -30,9 +30,4 @@ export default {
 
 <style scoped>
 
-.skill-category {
-  display: block;
-  border: 1px solid #CCCCCC;
-}
-
 </style>

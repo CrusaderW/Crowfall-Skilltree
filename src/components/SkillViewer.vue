@@ -1,11 +1,7 @@
 <template>
   <div class="skill-viewer">
     <h3 @click="toggleEditor(true)">{{ skill.name }}</h3>
-    |
-    <p>Value: {{ skill.value }}</p>
-    |
-    <p>Target: {{ skill.target }}</p>
-    
+    <progress v-bind:value="skill.value" v-bind:max="skill.target" ></progress>
     <div class="options">
       <button class="edit-link" v-on:click="edit()">edit</button>
       <button class="rem-link" v-on:click="remove()">remove</button>
@@ -41,9 +37,14 @@ export default {
 
 <style scoped>
 
-h3, p {
+p {
   display: inline-block;
   clear: both;
+}
+
+progress {
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 </style>

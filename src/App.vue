@@ -1,7 +1,11 @@
 <template>
-  <div id="skilltree-app">
-    <h1>Skilltree</h1>
+  <div class="tree" id="skilltree-app">
+    <div class="header">
+      <h1>Skilltree</h1>
+      <h2>(IRL Progress Tracking)</h2>
+    </div>
     <SkillTree
+      class="skill-tree-root"
       v-bind:skillData="root.children"
       v-on:update="updateSkill"
       v-on:create="createSkill"
@@ -121,14 +125,26 @@ export default {
 
 <style lang="scss">
 @import './variables.scss';
-
-h1 {
-  margin: 1em;
-}
+@import './assets/tree.css';
+@import './assets/theme.css';
 
 #skilltree-app {
   font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
   color: $default-blue;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 75px;
+  margin-top: 1em;
+  margin-bottom: 0.2em;
+}
+
+.header h2 {
+  font-style: italic;
 }
 
 </style>

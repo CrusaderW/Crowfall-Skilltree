@@ -1,7 +1,7 @@
 <template>
   <div class="skill-tree">
 
-    <ul class="skill-tree-list" ref="nodeList">
+    <ul class="node-list" ref="nodeList">
       <SkillNode
         v-for="(skill, index) in skillData"
         v-bind:skill="skill"
@@ -14,7 +14,6 @@
     </ul>
 
     <button v-if="!createMode" class="add-link" v-on:click="toggleCreate(true)">+ Add Skill</button>
-
     <SkillEditor 
       v-if="createMode"
       v-on:save="createNewSkill"
@@ -77,10 +76,15 @@ export default {
 
 .skill-tree {
   padding-left: 20px;
+  clear: both;
+  width: 100%;
+  position: relative;
 }
 
-ul.skill-tree-list {
+ul.node-list {
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 </style>
