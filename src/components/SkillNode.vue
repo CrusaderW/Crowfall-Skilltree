@@ -7,6 +7,7 @@
         v-if="!editMode"
         v-bind:skill="skill"
         v-on:edit="toggleEditor(true)"
+        v-on:update="updateValue"
         v-on:remove="removeSkill"
         v-on:add="createChildSkill"
       />
@@ -52,6 +53,11 @@ export default {
 
     toggleEditor(isOn) {
       this.editMode = isOn
+    },
+
+    updateValue(newVal) {
+      this.skill.value = newVal
+      this.saveSkill(this.skill)
     },
 
     saveSkill(updatedSkill) {
