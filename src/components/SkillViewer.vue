@@ -5,6 +5,7 @@
     <div class="options">
       <button class="edit-link" v-on:click="edit()">edit</button>
       <button class="rem-link" v-on:click="remove()">remove</button>
+      <button class="rem-link" v-on:click="add()">+</button>
     </div>
   </div>
 </template>

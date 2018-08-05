@@ -7,7 +7,8 @@
         v-if="!editMode"
         v-bind:skill="skill"
         v-on:edit="toggleEditor(true)"
-        v-on:remove="notifySkillRemove(skill)"
+        v-on:remove="removeSkill"
+        v-on:add="createChildSkill"
       />
       <SkillEditor 
         v-if="editMode"
@@ -18,11 +19,11 @@
 
     <!-- Children -->
     <SkillTree
-      v-if="skill.children && skill.children.length"
+      v-if="hasChildren"
       v-bind:skillData="skill.children"
       v-on:update="notifySkillUpdate"
       v-on:remove="notifySkillRemove"
-      v-on:create="createSkill"
+      v-on:create="notifySkillCreate"
     />
 
   </li>
@@ -42,6 +43,11 @@ export default {
       editMode: false,
     }
   },
+  computed: {
+    hasChildren() {
+      return this.skill.children && this.skill.children.length
+    }
+  },
   methods: {
 
     toggleEditor(isOn) {
@@ -54,12 +60,22 @@ export default {
       this.toggleEditor(false)
     },
 
-    createSkill(info) {
-      if (!info.parent) {
-        // Claim this new skill as a child
-        info.parent = this.skill
+    createChildSkill() {
+      let newSkillInfo = {
+        name: "New Skill",
+        value: 0,
+        target: 80,
+        parent: this.skill,
+        children: []
       }
+      this.$emit('create', newSkillInfo);
+    },
 
+    removeSkill() {
+      this.$emit('remove', this.skill)
+    },
+
+    notifySkillCreate(info) {
       this.$emit('create', info)
     },
 
@@ -68,6 +84,10 @@ export default {
     },
 
     notifySkillRemove(remSkill) {
+      if (!remSkill.parent)
+        // Take ownership of child skill
+        remSkill.parent = this.skill
+
       this.$emit('remove', remSkill)
     },
 

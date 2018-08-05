@@ -34,7 +34,7 @@ export default {
     // Once created, fetch skills
     api.fetchSkills()
     .then(skills => {
-      this.root.children = skills
+      this.root = this.rootify(skills);
     })
   },
   methods: {
@@ -51,25 +51,26 @@ export default {
     },
     
     createSkill(info) {
+      let parent = info.parent || this.root
+
       // Call API to create skill
       api.createSkill(info).then( (newSkill) => { 
-        // Find parent
-        let parent = this.root
-        if (info.parent) // Reference `info` until API supports `parent` attributes
-          parent = this.findSkill(info.parent.id)
+        newSkill.children = []; // Currently necessary for Vue reactivity
 
-        // Add new skill to data
+        // Add new skill to parent
         parent.children.push(newSkill)
       })
       .catch( (error) => { console.log("Create error: " + error) })
     },
 
-    removeSkill(skill) {
+    removeSkill(info) {
+      let remId = info.id
+      let parent = info.parent || this.root
+
       // Call API to delete skill 
-      api.deleteSkill(skill.id).then( () => {
-        // Remove skill from data
-        let parent = this.findParentOf(skill.id)
-        parent.children = parent.children.filter(child => !(child.id == skill.id)) // Filter out deleted skill
+      api.deleteSkill(remId).then( () => {   
+        // Remove child skill from parent     
+        parent.children = parent.children.filter(child => !(child.id == remId)) 
       })
     },
 
@@ -92,28 +93,29 @@ export default {
       return recursiveFind(this.root, id)
     },
 
-    findParentOf(skillId) {
-      // Recursive parent finder
-      let recursiveFindParent = function(parent, queryId) {
-        for (let i = 0; i < parent.children.length; i++) {
-          let child = parent.children[i]
-          if (child.id == queryId) 
-            return parent; // given node is parent
-          else {
-            if (child.children) {
-              for (let j = 0; j < child.children.length; j++) {
-                let grandchild = child.children[j]
-                if (grandchild.id == queryId) {
-                  return child
-                }
-              }
-            }
+    rootify(data) {
+      // Need to make sure all nodes have a 'children' property...
+      //  (This is currently necessary for Vue reactivity)
+      let recursiveChildMaker = function(node) {
+        if (node.children) {
+          for (let i = 0; i < node.children.length; i++) {
+            recursiveChildMaker(node.children[i]);
           }
+        }
+        else {
+          node.children = [];
         }
       }
 
-      // Use recursive parent finder on tree root
-      return recursiveFindParent(this.root, skillId)
+      // Place skill data in new root
+      let newRoot = {
+        children: data
+      };
+
+      // Run recursive child maker on new root
+      recursiveChildMaker(newRoot);
+
+      return newRoot;
     },
 
   },

@@ -13,12 +13,6 @@
       />
     </ul>
 
-    <button v-if="!createMode" class="add-link" v-on:click="toggleCreate(true)">+ Add Skill</button>
-    <SkillEditor 
-      v-if="createMode"
-      v-on:save="createNewSkill"
-    />
-    
   </div>
 </template>
 
@@ -54,15 +48,6 @@ export default {
     notifySkillCreated(skillInfo) {
       this.$emit('create', skillInfo)
     },
-
-    createNewSkill(skillInfo) {
-      // We know this is a brand new skill
-      //  and no parent has been defined yet
-      skillInfo.parent = null
-
-      this.notifySkillCreated(skillInfo)
-      this.toggleCreate(false)
-    }
 
   },
   components: {
