@@ -28,13 +28,13 @@ export default {
       let newVal = this.value + this.interval
 
       if (newVal >= 0 && newVal <= this.max)
-        this.$emit('update', newVal);
+        this.$emit('update', {value: newVal});
     },
     decrement() {
       let newVal = this.value - this.interval
       
       if (newVal >= 0 && newVal <= this.max)
-        this.$emit('update', newVal);
+        this.$emit('update', {value: newVal});
     },
   },
 }
@@ -45,6 +45,7 @@ export default {
 
 .skill-progress {
   display: flex;
+  margin-bottom: 20px;
 }
 
 .skill-progress button {

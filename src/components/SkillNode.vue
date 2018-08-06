@@ -3,19 +3,30 @@
 
     <!-- Node info -->
     <div class="node-info">
-      <SkillViewer 
-        v-if="!editMode"
-        v-bind:skill="skill"
-        v-on:edit="toggleEditor(true)"
-        v-on:update="updateValue"
-        v-on:remove="removeSkill"
-        v-on:add="createChildSkill"
-      />
+      <!-- Title -->
+      <h3 v-if="!editMode" v-on:click="toggleEditor(true)">
+        {{ skill.name }}
+        <button v-on:click="toggleEditor(on)">edit</button>
+      </h3>
+
+      <!-- Edit form -->
       <SkillEditor 
         v-if="editMode"
         v-bind:skill="skill"
-        v-on:save="saveSkill(skill)"
+        v-on:save="submitUpdate"
       />
+
+      <!-- Progress display -->
+      <SkillProgress 
+        v-bind:value="skill.value"
+        v-bind:max="skill.target"
+        v-on:update="submitUpdate"
+      />
+
+      <!-- Delete button -->
+      <button class="btn-delete" v-on:click="removeSkill">X</button>
+      <!-- Add child button -->
+      <button class="btn-add" v-on:click="createChildSkill">+</button>
     </div>
 
     <!-- Children -->
@@ -31,8 +42,8 @@
 </template>
 
 <script>
-import SkillViewer from './SkillViewer'
 import SkillEditor from './SkillEditor'
+import SkillProgress from './SkillProgress'
 
 export default {
   name: 'skill-node',
@@ -55,14 +66,15 @@ export default {
       this.editMode = isOn
     },
 
-    updateValue(newVal) {
-      this.skill.value = newVal
-      this.saveSkill(this.skill)
-    },
+    submitUpdate(newData) {
+      newData.name = newData.name || this.skill.name
+      newData.value = newData.value || this.skill.value
 
-    saveSkill(updatedSkill) {
-      this.$emit('update', updatedSkill);
-      // Todo: Add async wait for server response
+      this.$emit('update', {
+        skill: this.skill,
+        updates: newData
+      })
+
       this.toggleEditor(false)
     },
 
@@ -78,7 +90,8 @@ export default {
     },
 
     removeSkill() {
-      this.$emit('remove', this.skill)
+      if (confirm('Are you sure you want to delete the skill "' + this.skill.name + '" ?')) 
+        this.$emit('remove', this.skill)
     },
 
     notifySkillCreate(info) {
@@ -99,8 +112,8 @@ export default {
 
   },
   components: {
-    SkillViewer,
     SkillEditor,
+    SkillProgress,
     // SkillTree inherited
   },
 }
@@ -127,8 +140,11 @@ export default {
   box-shadow: 5px 5px #000000;
 }
 
-.options {
-  font-size: 1em;
-  width: 100%;
+.btn-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 25px;
 }
+
 </style>

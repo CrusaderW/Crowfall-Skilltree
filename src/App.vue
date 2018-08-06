@@ -39,14 +39,22 @@ export default {
   },
   methods: {
 
-    updateSkill(skill) {
+    updateSkill(info) {
+
+      let newData = info.updates
+      let skill = info.skill
+
       api.updateSkill(
         skill.id,
-        skill.name,
-        skill.value,
-        skill.target
+        newData.name,
+        newData.value,
+        newData.target
       )
-      .then( () => { console.log("Updated skill: " + skill.name) })
+      .then( () => { 
+        // Update local data
+        skill.name = newData.name
+        skill.value = newData.value
+      })
       .catch( (error) => { console.log("Update error: " + error) })
     },
     
