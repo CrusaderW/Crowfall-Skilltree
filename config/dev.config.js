@@ -6,10 +6,12 @@ module.exports = merge(baseConfig, {
   devtool: '#eval-source-map',
   plugins: [
     new Dotenv({
-      path: './.env.dev'
+      path: './.env.dev',
+      systemvars: true
     }),
     new Dotenv({
-      path: './.env'
+      path: './.env',
+      systemvars: true
     })
   ]
 })

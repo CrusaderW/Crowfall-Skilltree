@@ -7,10 +7,12 @@ module.exports = merge(baseConfig, {
   devtool: '#source-map',
   plugins: [
     new Dotenv({
-      path: './.env.prod'
+      path: './.env.prod',
+      systemvars: true
     }),
     new Dotenv({
-      path: './.env'
+      path: './.env',
+      systemvars: true
     }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
