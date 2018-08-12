@@ -2,11 +2,10 @@
 
 let axios = require('axios'); // `import` is forbidden here
 
-const host = "http://localhost";
-const port = 3000;
+const root = process.env.API_ROOT || "http://localhost/api";
 
 function buildUrl(apiPath) {
-  return host + ':' + port  + "/api/" + apiPath;
+  return root + "/" + apiPath;
 }
 
 export function fetchSkills() {
