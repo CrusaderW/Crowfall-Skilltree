@@ -90,7 +90,7 @@ export default {
 
     submitUpdate(newData) {
       newData.name = newData.name || this.skill.name
-      newData.value = newData.value || this.skill.value
+      newData.value = (newData.value != null) ? newData.value : this.skill.value
 
       this.$emit('update', {
         skill: this.skill,
