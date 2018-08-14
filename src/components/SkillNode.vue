@@ -18,7 +18,7 @@
 
       <!-- Progress display -->
       <SkillProgress 
-        v-bind:value="skill.value"
+        v-bind:value="value"
         v-bind:max="skill.target"
         v-on:update="submitUpdate"
       />
@@ -58,12 +58,33 @@ export default {
   computed: {
     hasChildren() {
       return this.skill.children && this.skill.children.length
+    },
+    value() {
+      return this.calculateValue()
+    }
+  },
+  watch: {
+    value(val) {
+      this.submitUpdate({
+        value: val
+      })
     }
   },
   methods: {
 
     toggleEditor(isOn) {
       this.editMode = isOn
+    },
+
+    calculateValue() {
+      if (this.hasChildren) {
+        let sum = 0
+        for (let i = 0; i < this.skill.children.length; i++) 
+          sum += this.skill.children[i].value
+        return sum / this.skill.children.length
+      }
+      else 
+        return this.skill.value
     },
 
     submitUpdate(newData) {
