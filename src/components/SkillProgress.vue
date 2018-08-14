@@ -2,8 +2,8 @@
   <div class="skill-progress">
     <progress v-bind:value="value" v-bind:max="max"></progress>
     <span class="label">{{value}}%</span>
-    <button v-on:click="decrement()">-</button>
-    <button v-on:click="increment()">+</button>
+    <button v-if="isEditable" v-on:click="decrement()">-</button>
+    <button v-if="isEditable" v-on:click="increment()">+</button>
   </div>
 </template>
 
@@ -17,6 +17,10 @@ export default {
     'interval': {
       type: Number,
       default: 10,
+    },
+    'isEditable': {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -32,7 +36,7 @@ export default {
     },
     decrement() {
       let newVal = this.value - this.interval
-      
+
       if (newVal >= 0 && newVal <= this.max)
         this.$emit('update', {value: newVal});
     },

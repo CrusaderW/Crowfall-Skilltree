@@ -20,6 +20,7 @@
       <SkillProgress 
         v-bind:value="value"
         v-bind:max="skill.target"
+        v-bind:isEditable="!hasChildren"
         v-on:update="submitUpdate"
       />
 
