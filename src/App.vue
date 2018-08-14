@@ -4,6 +4,9 @@
       <h1>Skilltree</h1>
       <h2>(IRL Progress Tracking)</h2>
     </div>
+    <div class="loading-screen flashing" v-if="loading">
+      <h3>Waiting for API to boot up, probably...</h3>
+    </div>
     <SkillTree
       class="skill-tree-root"
       v-bind:skillData="root.children"
@@ -27,14 +30,18 @@ export default {
     return {
       root: {
         children: [],
-      }
+      },
+      loading: true
     }
   },
   created() {
+    this.loading = true 
+
     // Once created, fetch skills
     api.fetchSkills()
     .then(skills => {
-      this.root = this.rootify(skills);
+      this.loading = false
+      this.root = this.rootify(skills)
     })
   },
   methods: {
@@ -157,6 +164,29 @@ export default {
 
 .header h2 {
   font-style: italic;
+}
+
+.loading-screen {
+  text-align: center;
+}
+
+.loading-screen h3 {
+  margin: 50px auto;
+}
+
+.flashing {
+	-webkit-animation: flash linear 8s infinite;
+	animation: flash linear 2s infinite;
+}
+@-webkit-keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .1; } 
+	100% { opacity: 1; }
+}
+@keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .1; } 
+	100% { opacity: 1; }
 }
 
 </style>
