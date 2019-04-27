@@ -7,20 +7,26 @@
     <div class="loading-screen flashing" v-if="loading">
       <h3>Still Waiting for API I don´t want to use...</h3>
     </div>
+    <Professions
+      class="ProfessionSelection"
+      v-bind:professions="root.professions">
+    </Professions>
     <SkillTree
       class="skill-tree-root"
       v-bind:skillData="root.children"
       v-on:update="updateSkill"
       v-on:create="createSkill"
-      v-on:remove="removeSkill"
-    />
+      v-on:remove="removeSkill">
+    </SkillTree>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import SkillTree from './components/SkillTree.vue'
-Vue.component('SkillTree', SkillTree) // Needed for recursive SkillTrees
+import Professions from "./components/Professions"
+Vue.component('SkillTree', SkillTree); // Needed for recursive SkillTrees
+Vue.component("Professions", Professions);
 
 let api = require('./api.js') // Apparently `import` is forbidden here
 
@@ -29,11 +35,12 @@ export default {
   data() {
     return {
       root: {
-        children: [
-          {skill:"Combat", name:"Combat", children:[]},
-          {skill:"Exploration", name:"Exploration", children:[]},
-          {skill:"Crafting", name:"Crafting", children:[]}
+        professions: [
+          {name:"Combat"},
+          {name:"Exploration"},
+          {name:"Crafting"},
         ],
+        children: [],
       },
       loading: true
     }

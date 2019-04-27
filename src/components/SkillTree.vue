@@ -10,6 +10,7 @@
         v-on:update="notifySkillUpdate"
         v-on:remove="notifySkillRemove"
         v-on:create="notifySkillCreated"
+        v-on:loadProfession="loadProfession"
       />
     </ul>
 
@@ -48,6 +49,12 @@ export default {
     notifySkillCreated(skillInfo) {
       this.$emit('create', skillInfo)
     },
+    loadProfession(name){
+      console.log("Profession " + name + " has been clicked");
+      this.$emit("loadProfession",{
+        name: name
+      })
+    }
 
   },
   components: {

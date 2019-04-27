@@ -1,12 +1,12 @@
 <template>
   <div class="skill-category">
     <h2>{{ category.name }}</h2>
-    <Skill 
+    <Skill
       v-for="(skill, index) in category.skills"
       v-bind:skill="skill"
       v-bind:index="index"
-      v-bind:key="skill.id"
-    />
+      v-bind:key="skill.id">
+    </Skill>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-
+      [{category: }]
     };
   },
   methods: {
