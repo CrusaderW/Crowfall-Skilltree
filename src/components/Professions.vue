@@ -43,7 +43,7 @@ export default {
 .professions {
   padding-left: 20px;
   clear: both;
-  width: 100%;
+  width: 400px;
   position: relative;
 }
 

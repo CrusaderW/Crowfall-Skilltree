@@ -2,9 +2,9 @@
     <li class="profession-node">
 
         <!-- Node info -->
-        <div class="node-info">
+        <div class="profession-node-info">
             <!-- Title -->
-            <h3 v-if="!editMode" v-on:click="loadProfession">
+            <h3 v-on:click="loadProfession">
                 {{ profession.name }}
             </h3>
         </div>
@@ -37,26 +37,22 @@
     .profession-node {
         flex: 0 0 auto;
         display: block;
-        min-width: 200px;
-        padding: 20px;
-        margin: 20px 0;
+        min-width: 300px;
+        margin: 10px;
+        padding: 5px;
         overflow: auto;
         position: relative;
     }
 
-    .node-info {
+    .profession-node-info {
         background-color: #FFFFFF;
         display: block;
         padding: 20px;
         border: 1px solid #000000;
         box-shadow: 5px 5px #000000;
     }
-
-    .btn-delete {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 25px;
+    h3 {
+        margin: 0;
     }
 
 </style>
