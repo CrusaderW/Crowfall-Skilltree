@@ -5,7 +5,7 @@
       <h2>(IRL Progress Tracking)</h2>
     </div>
     <div class="loading-screen flashing" v-if="loading">
-      <h3>Waiting for API to boot up, probably...</h3>
+      <h3>Still Waiting for API I don´t want to use...</h3>
     </div>
     <SkillTree
       class="skill-tree-root"
@@ -29,13 +29,17 @@ export default {
   data() {
     return {
       root: {
-        children: [],
+        children: [
+          {skill:"Combat", name:"Combat", children:[]},
+          {skill:"Exploration", name:"Exploration", children:[]},
+          {skill:"Crafting", name:"Crafting", children:[]}
+        ],
       },
       loading: true
     }
   },
   created() {
-    this.loading = true 
+    this.loading = false
 
     // Once created, fetch skills
     api.fetchSkills()
@@ -61,17 +65,17 @@ export default {
         newData.value,
         newData.target
       )
-      .then( () => { 
+      .then( () => {
         // Update saved to backend
       })
       .catch( (error) => { console.log("Update error: " + error) })
     },
-    
+
     createSkill(info) {
-      let parent = info.parent || this.root
+      let parent = info.parent || this.root;
 
       // Call API to create skill
-      api.createSkill(info).then( (newSkill) => { 
+      api.createSkill(info).then( (newSkill) => {
         newSkill.children = []; // Currently necessary for Vue reactivity
 
         // Add new skill to parent
@@ -84,10 +88,10 @@ export default {
       let remId = info.id
       let parent = info.parent || this.root
 
-      // Call API to delete skill 
-      api.deleteSkill(remId).then( () => {   
-        // Remove child skill from parent     
-        parent.children = parent.children.filter(child => !(child.id == remId)) 
+      // Call API to delete skill
+      api.deleteSkill(remId).then( () => {
+        // Remove child skill from parent
+        parent.children = parent.children.filter(child => !(child.id == remId))
       })
     },
 
@@ -179,13 +183,13 @@ export default {
 	animation: flash linear 2s infinite;
 }
 @-webkit-keyframes flash {
-	0% { opacity: 1; } 
-	50% { opacity: .1; } 
+	0% { opacity: 1; }
+	50% { opacity: .1; }
 	100% { opacity: 1; }
 }
 @keyframes flash {
-	0% { opacity: 1; } 
-	50% { opacity: .1; } 
+	0% { opacity: 1; }
+	50% { opacity: .1; }
 	100% { opacity: 1; }
 }
 
