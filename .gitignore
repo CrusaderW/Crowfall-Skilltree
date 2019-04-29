@@ -2,6 +2,7 @@
 node_modules/
 dist/
 npm-debug.log
+img/
 
 # Editor directories and files
 .editorconfig
