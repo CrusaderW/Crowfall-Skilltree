@@ -13,3 +13,5 @@ img/
 
 # Log files
 npm-debug.log*
+.idea/
+Crowfall-Skilltree.iml
