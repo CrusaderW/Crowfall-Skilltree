@@ -44,7 +44,7 @@ export default {
 <style scoped>
 
 .professions {
-  padding-left: 20px;
+  padding: 49px 0 0 20px;
   clear: both;
   width: 400px;
   position: relative;
@@ -59,22 +59,21 @@ ul.profession-list {
   flex: 0 0 auto;
   display: block;
   min-width: 300px;
-  margin: 10px;
-  padding: 5px;
+  padding: 2px;
   overflow: auto;
   position: relative;
 }
 
 .profession-node-info {
-  background-color: #FFFFFF;
+  background-color: #2a425c;
   display: block;
   padding: 20px;
   border: 1px solid #000000;
-  box-shadow: 5px 5px #000000;
   }
 
   h3 {
     margin: 0;
+    color: white;
   }
 
 </style>
