@@ -30,11 +30,8 @@ export default {
     },
     methods: {
         loadProfession: function(image_file) {
-            // TODO: call the store-method to set the current skilltree.
-            console.log(image_file);
             this.$store.commit('setSkilltree', image_file);
             this.$emit("updateBackground");
-            console.log("calling...")
             return 0;
         }
     },

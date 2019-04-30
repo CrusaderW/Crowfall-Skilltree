@@ -158,7 +158,6 @@
 	#skilltree-app {
 		font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
 		color: $default-blue;
-		//background-image: url('../img/Tutorial_bg.jpg');
 		background-repeat: no-repeat;
 		width: 1440px;
 		height: 918px;
